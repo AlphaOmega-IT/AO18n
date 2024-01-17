@@ -297,8 +297,8 @@ public class I18n implements II18nImpl {
 	public static class Builder {
 
 		private final Map<Integer, String> arguments = new LinkedHashMap<>();
-		private final String key;
-		private final Player player;
+		private       String               key;
+		private final Player               player;
 		private boolean hasPrefix;
 		private boolean hasPlaceholder;
 
@@ -324,6 +324,19 @@ public class I18n implements II18nImpl {
 		}
 
 		/**
+		 * Sets the new key for the 'key' property.
+		 *
+		 * @param key the new key for the 'key' property
+		 * @return the current instance of the `Builder` class
+		 */
+		public Builder setKey(
+			final @NotNull String key
+		) {
+			this.key = key;
+			return this;
+		}
+
+		/**
 		 * Sets the value of the `hasPlaceholder` property.
 		 *
 		 * @param  hasPlaceholder  the new value for the `hasPlaceholder` property
@@ -345,6 +358,7 @@ public class I18n implements II18nImpl {
 		public Builder setArgs(
 			final Object... arguments
 		) {
+			this.hasPlaceholder = true;
 			for (
 				Object argument : arguments
 			) this.arguments.put(this.arguments.size(), argument.toString());
