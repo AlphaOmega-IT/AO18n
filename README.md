@@ -141,6 +141,18 @@ We welcome contributions to AO18n! If you would like to contribute, please follo
 
 Thank you for contributing to AO18n!
 
+# Special Thanks
+
+We extend our heartfelt gratitude to BlvckBytes for his incredible work on any of me. blvckbytes project. Our project benefits greatly from the functionality and reliability provided by AutoWirer, GPEEE, BBConfigMapper, and much more. 
+We want to express our appreciation for the effort and dedication put into maintaining such a valuable tool.
+
+If you find AO18n useful, please consider supporting and thanking AlphaOmega-IT, BlvckBytes for their hard work. Here are ways to connect with them:
+
+- GitHub: [BlvckBytes GitHub Profile](https://github.com/BlvckBytes)
+- GitHub: [Author's GitHub Profile](https://github.com/AlphaOmega-IT)
+
+Thank you, BlvckBytes, for your outstanding contributions!
+
 
 # Support
 
@@ -151,5 +163,3 @@ If you have any questions, or issues, or need assistance, feel free to reach out
 - Email us at services@alphaomega-it.de
 
 We appreciate your feedback and will do our best to assist you!
-
----
