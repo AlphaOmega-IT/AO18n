@@ -143,7 +143,7 @@ Thank you for contributing to AO18n!
 
 # Special Thanks
 
-We extend our heartfelt gratitude to BlvckBytes for his incredible work on any of me. blvckbytes project. Our project benefits greatly from the functionality and reliability provided by AutoWirer, GPEEE, BBConfigMapper, and much more. 
+We extend our heartfelt gratitude to BlvckBytes for his incredible work on any of me.blvckbytes projects. Our project benefits greatly from the functionality and reliability provided by AutoWirer, GPEEE, BBConfigMapper, and much more. 
 We want to express our appreciation for the effort and dedication put into maintaining such a valuable tool.
 
 If you find AO18n useful, please consider supporting and thanking AlphaOmega-IT, BlvckBytes for their hard work. Here are ways to connect with them:
