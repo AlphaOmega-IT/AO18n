@@ -8,9 +8,10 @@
 
 ## Overview
 
-AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers. It helps you manage translations and localization in your application efficiently.
-You are able to provide as much localizations as you want! If a message key is missing it will lead back to the fallback language, so you do not have to worry at all about
-adding new translation in time! 
+AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers. 
+It helps you manage translations and localization in your application efficiently.
+You can provide as many localizations as you want! 
+If a message key is missing it will lead back to the fallback language, so you do not have to worry at all about adding a new translation in time!
 
 ## Features
 
