@@ -29,11 +29,10 @@ Add the following dependency to your project's `pom.xml` file:
 
 ```xml
 <dependencies>
-    <!-- Other dependencies -->
     <dependency>
-        <groupId>com.alphaomega-it</groupId>
-        <artifactId>ao18n</artifactId>
-        <version>1.0.0</version> <!-- Replace with the latest version -->
+        <groupId>de.alphaomega-it.ao18n</groupId>
+        <artifactId>AO18n</artifactId>
+        <version>1.1</version>
     </dependency>
 </dependencies>
 ```
