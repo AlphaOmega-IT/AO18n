@@ -6,7 +6,7 @@
 
     <groupId>de.alphaomega-it.ao18n</groupId>
     <artifactId>AO18n</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>AO18n</name>
     <description>AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers.</description>
     <url>https://github.com/AlphaOmega-IT/AO18n</url>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
