@@ -139,7 +139,7 @@ public class I18n implements II18nImpl {
 
 		// Check if the translations map contains the prefix
 		if (
-			!translations.containsKey(PREFIX)
+			!translations.containsKey(this.key)
 		) return List.of(keyNotFound);
 
 		// Check if the translations map contains the key for the player's locale

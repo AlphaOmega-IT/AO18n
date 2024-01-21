@@ -19,8 +19,6 @@ public class AO18n implements IAO18nProvider {
 
 	private final JavaPlugin loadedPlugin;
 
-	private ConfigManager configManager;
-
 	private static @Nullable I18nFactory i18nFactory;
 
 	public AO18n(
@@ -55,8 +53,9 @@ public class AO18n implements IAO18nProvider {
 				this.logger.info("Config file created: " + configPath);
 			});
 
+		ConfigManager configManager;
 		try {
-			this.configManager = new ConfigManager(
+			configManager = new ConfigManager(
 				this,
 				this.logger,
 				new PluginFileHandler(this.loadedPlugin)
@@ -75,7 +74,7 @@ public class AO18n implements IAO18nProvider {
 
 		this.autoWirer
 			.addExistingSingleton(this.logger)
-			.addExistingSingleton(this.configManager)
+			.addExistingSingleton(configManager)
 			.onException(exception -> {
 				this.logger.log(
 					Level.SEVERE,
