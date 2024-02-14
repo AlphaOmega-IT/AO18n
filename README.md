@@ -32,7 +32,7 @@ Add the following dependency to your project's `pom.xml` file:
     <dependency>
         <groupId>de.alphaomega-it.ao18n</groupId>
         <artifactId>AO18n</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
     </dependency>
 </dependencies>
 ```
