@@ -5,10 +5,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The `I18n` class is responsible for internationalization in the application.
@@ -144,8 +143,8 @@ public class I18n implements II18nImpl {
 
 		// Check if the translations map contains the key for the player's locale
 		if (
-			translations.get(this.key).containsKey(this.player.locale().toString())
-		) return translations.get(this.key).get(this.player.locale().toString());
+			translations.get(this.key).containsKey(this.player.locale().toLanguageTag())
+		) return translations.get(this.key).get(this.player.locale().toLanguageTag());
 
 		// Check if the translations map contains the key for the default locale
 		if (
@@ -178,7 +177,7 @@ public class I18n implements II18nImpl {
 
 		// Fetch the messages based on the player's locale
 		Map<String, List<String>> prefixTranslations = translations.get(PREFIX);
-		String playerLocale = this.player.locale().toString();
+		String playerLocale = this.player.locale().toLanguageTag();
 		if (
 			prefixTranslations.containsKey(playerLocale)
 		) return prefixTranslations.get(playerLocale);
@@ -267,16 +266,29 @@ public class I18n implements II18nImpl {
 	private @NotNull String replaceArguments(@NotNull String messageLine) {
 		int i = 0;
 		// Loop until all placeholders are replaced
+
+		final String regex = "(\\{\\d*})";
+		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+		final Matcher matcher = pattern.matcher(messageLine);
+
+		final Iterator<String> iterator = this.arguments.values().iterator();
+
 		while (
-			messageLine.contains("{" + i + "}")
+			matcher.find()
 		) {
 			try {
+				if (
+					! iterator.hasNext()
+				) break;
+
+				final String string = iterator.next();
+
 				// Replace the placeholder with argument value
-				messageLine = messageLine.replaceFirst("\\{" + i + "}", this.arguments.get(i));
+				messageLine = matcher.replaceFirst(matchResult -> string);
 			} catch (
 				final Exception ignored
 			) {
-				// Ignore exception if argument is not found
+				break;
 			}
 			i++;
 		}

@@ -39,9 +39,8 @@ public class AO18n implements IAO18nProvider {
 		final long beginTimestamp = System.nanoTime();
 
 		// Create the plugin folder if it doesn't exist
-		if (this.loadedPlugin.getDataFolder().mkdir()) {
+		if (this.loadedPlugin.getDataFolder().mkdir())
 			this.logger.info("Plugin folder created.");
-		}
 
 		// Create config files
 		Arrays.stream(this.getConfigPaths()).toList().forEach(

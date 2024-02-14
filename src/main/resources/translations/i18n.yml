@@ -3,30 +3,30 @@
 
 # See https://wiki.atwoo.eu for more information.
 
-defaultLocale: 'en_US'
+defaultLocale: 'en'
 translations:
   #Prefix has to be a key in order to make the function #showPrefix work
   prefix:
-    de_DE:
+    de:
       - '<gray>Dies ist eine Nachricht</gray>'
-    en_US:
+    en:
       - '<gray>This is a message</gray>'
   message_key_2:
-    de_DE:
+    de:
       - '<gray>Dies ist eine Nachricht 2</gray>'
       - '<gray>Dies ist eine Nachricht 3</gray>'
-    en_US:
+    en:
       - '<gray>This is a message 2</gray>'
       - '<gray>This is a message 3</gray>'
   message_key_3:
-    de_DE:
+    de:
       - '<gray>Dies ist eine Nachricht 4</gray>'
       - '<gray>Dies ist eine Nachricht mit einem Platzhalter {0}</gray>'
-    en_US:
+    en:
       - '<gray>This is a message 4</gray>'
       - '<gray>This is a message with a placeholder {0}</gray>'
   message_key_4:
-    de_DE:
+    de:
       - '<gray>{0}, {1}, {2} etc. Platzhalter...</gray>'
-    en_US:
+    en:
       - '<gray>{0}, {1}, {2} etc. Placeholder...</gray>'
