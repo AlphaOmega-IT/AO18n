@@ -6,7 +6,7 @@
 
     <groupId>de.alphaomega-it.ao18n</groupId>
     <artifactId>AO18n</artifactId>
-    <version>1.3</version>
+    <version>1.5</version>
     <name>AO18n</name>
     <description>AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers.</description>
     <url>https://github.com/AlphaOmega-IT/AO18n</url>
