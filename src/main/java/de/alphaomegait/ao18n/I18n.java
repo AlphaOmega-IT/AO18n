@@ -264,24 +264,17 @@ public class I18n implements II18nImpl {
 	 * @return The message line with replaced placeholders.
 	 */
 	private @NotNull String replaceArguments(@NotNull String messageLine) {
-		final String regex = "(\\{\\d*})";
-		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-		final Matcher matcher = pattern.matcher(messageLine);
-
 		final Iterator<String> iterator = this.arguments.values().iterator();
-
+		int i = 0;
 		while (
-			matcher.find(matcher.start())
+			iterator.hasNext()
 		) {
 			try {
-				if (
-					! iterator.hasNext()
-				) break;
-
 				final String string = iterator.next();
 
 				// Replace the placeholder with argument value
-				messageLine = matcher.replaceFirst(string);
+				messageLine = messageLine.replace("{" + i + "}", string);
+				i++;
 			} catch (
 				final Exception ignored
 			) {

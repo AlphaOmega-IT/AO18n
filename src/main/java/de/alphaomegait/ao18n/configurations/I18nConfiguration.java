@@ -24,7 +24,7 @@ public class I18nConfiguration implements IConfigSection, I18nConfigurationProvi
 	 */
 	@Override
 	public String getDefaultLocale() {
-		// Return "en_US" if defaultLocale is null, otherwise return defaultLocale.
+		// Return "en" if defaultLocale is null, otherwise return defaultLocale.
 		return this.defaultLocale == null ? "en" : this.defaultLocale;
 	}
 
