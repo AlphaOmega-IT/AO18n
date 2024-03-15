@@ -6,7 +6,7 @@
 
     <groupId>de.alphaomega-it.ao18n</groupId>
     <artifactId>AO18n</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
     <name>AO18n</name>
     <description>AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers.</description>
     <url>https://github.com/AlphaOmega-IT/AO18n</url>
@@ -72,8 +72,12 @@
             <exclusions>
                 <exclusion>
                     <groupId>net.kyori</groupId>
-                    <artifactId>adventure-api</artifactId>
+                    <artifactId>adventure-text-minimessage</artifactId>
                 </exclusion>
+							<exclusion>
+								<groupId>org.yaml</groupId>
+								<artifactId>snakeyaml</artifactId>
+							</exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -90,6 +94,10 @@
                     <groupId>me.blvckbytes</groupId>
                     <artifactId>BBConfigMapper</artifactId>
                 </exclusion>
+							<exclusion>
+								<groupId>com.google.code.gson</groupId>
+								<artifactId>gson</artifactId>
+							</exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -97,6 +105,12 @@
             <artifactId>AutoWirer</artifactId>
             <version>0.1</version>
             <scope>compile</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>me.blvckbytes</groupId>
+							<artifactId>UtilityTypes</artifactId>
+						</exclusion>
+					</exclusions>
         </dependency>
     </dependencies>
 
