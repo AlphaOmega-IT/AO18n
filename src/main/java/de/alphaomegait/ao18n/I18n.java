@@ -52,6 +52,7 @@ public class I18n implements II18nImpl {
 
 	private final static String PREFIX = "prefix";
 
+	private final List<Component> componentsToAppend;
 	private final Map<Integer, String> arguments;
 	private final String key;
 	private final Player player;
@@ -66,6 +67,7 @@ public class I18n implements II18nImpl {
 		this.player = builder.player;
 		this.hasPrefix = builder.hasPrefix;
 		this.hasPlaceholder = builder.hasPlaceholder;
+		this.componentsToAppend = builder.existingTextToAppendAtTheEnd;
 	}
 
 	/**
@@ -109,7 +111,19 @@ public class I18n implements II18nImpl {
 	 */
 	@Override
 	public Component displayMessageAsComponent() {
-		return MiniMessage.miniMessage().deserialize(this.getJoinedMessage());
+		Component displayComponent = MiniMessage.miniMessage().deserialize(this.getJoinedMessage());
+
+		if (
+			! this.componentsToAppend.isEmpty()
+		) {
+			for (
+				final Component component : this.componentsToAppend
+			) {
+				displayComponent = displayComponent.append(component);
+			};
+		}
+
+		return displayComponent;
 	}
 
 	/**
@@ -213,8 +227,11 @@ public class I18n implements II18nImpl {
 
 			// Skip message line if placeholder is not present
 			if (
-				!this.hasPlaceholder
-			) continue;
+				! this.hasPlaceholder
+			) {
+				messages.add(messageLine);
+				continue;
+			}
 
 			// Replace arguments in the message line and add it to the list of messages
 			messages.add(this.replaceArguments(messageLine));
@@ -298,6 +315,7 @@ public class I18n implements II18nImpl {
 	public static class Builder {
 
 		private final Map<Integer, String> arguments = new LinkedHashMap<>();
+		private final List<Component> existingTextToAppendAtTheEnd = new ArrayList<>();
 		private       String               key;
 		private final Player               player;
 		private boolean hasPrefix;
@@ -347,6 +365,13 @@ public class I18n implements II18nImpl {
 			final boolean hasPlaceholder
 		) {
 			this.hasPlaceholder = hasPlaceholder;
+			return this;
+		}
+
+		public Builder append(
+			final Component... components
+		) {
+			this.existingTextToAppendAtTheEnd.addAll(List.of(components));
 			return this;
 		}
 
