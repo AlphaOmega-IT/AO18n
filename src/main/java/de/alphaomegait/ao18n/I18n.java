@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The `I18n` class is responsible for internationalization in the application.
@@ -120,7 +118,7 @@ public class I18n implements II18nImpl {
 				final Component component : this.componentsToAppend
 			) {
 				displayComponent = displayComponent.append(component);
-			};
+			}
 		}
 
 		return displayComponent;
@@ -157,8 +155,8 @@ public class I18n implements II18nImpl {
 
 		// Check if the translations map contains the key for the player's locale
 		if (
-			translations.get(this.key).containsKey(this.player.locale().toLanguageTag())
-		) return translations.get(this.key).get(this.player.locale().toLanguageTag());
+			translations.get(this.key).containsKey(this.player.locale().getLanguage())
+		) return translations.get(this.key).get(this.player.locale().getLanguage());
 
 		// Check if the translations map contains the key for the default locale
 		if (
@@ -191,7 +189,7 @@ public class I18n implements II18nImpl {
 
 		// Fetch the messages based on the player's locale
 		Map<String, List<String>> prefixTranslations = translations.get(PREFIX);
-		String playerLocale = this.player.locale().toLanguageTag();
+		String playerLocale = this.player.locale().getLanguage();
 		if (
 			prefixTranslations.containsKey(playerLocale)
 		) return prefixTranslations.get(playerLocale);
@@ -382,7 +380,7 @@ public class I18n implements II18nImpl {
 		 * @return            the current instance of the `Builder` class
 		 */
 		public Builder setArgs(
-			final Object... arguments
+			final @NotNull Object... arguments
 		) {
 			this.hasPlaceholder = true;
 			for (

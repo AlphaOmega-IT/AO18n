@@ -74,13 +74,11 @@ public class AO18n implements IAO18nProvider {
 		this.autoWirer
 			.addExistingSingleton(this.logger)
 			.addExistingSingleton(configManager)
-			.onException(exception -> {
-				this.logger.log(
-					Level.SEVERE,
-					"An exception occurred while loading the plugin: " + exception,
-					exception
-				);
-			})
+			.onException(exception -> this.logger.log(
+				Level.SEVERE,
+				"An exception occurred while loading the plugin: " + exception,
+				exception
+			))
 			.wire(success -> {
 				// Log the number of classes loaded and the time taken for wiring
 				this.logger.info(
@@ -90,13 +88,11 @@ public class AO18n implements IAO18nProvider {
 
 		this.autoWirer
 			.addSingleton(I18nFactory.class)
-			.onException(exception -> {
-				this.logger.log(
-					Level.SEVERE,
-					"An exception occurred while loading the plugin: " + exception,
-					exception
-				);
-			})
+			.onException(exception -> this.logger.log(
+				Level.SEVERE,
+				"An exception occurred while loading the plugin: " + exception,
+				exception
+			))
 			.wire(success -> {
 				// Log the number of classes loaded and the time taken for wiring
 				this.logger.info(
