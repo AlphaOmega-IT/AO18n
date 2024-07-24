@@ -39,8 +39,9 @@ public class AO18n implements IAO18nProvider {
 		final long beginTimestamp = System.nanoTime();
 
 		// Create the plugin folder if it doesn't exist
-		if (this.loadedPlugin.getDataFolder().mkdir())
-			this.logger.info("Plugin folder created.");
+		if (
+			this.loadedPlugin.getDataFolder().mkdir()
+		) this.logger.info("Plugin folder created.");
 
 		// Create config files
 		Arrays.stream(this.getConfigPaths()).toList().forEach(
@@ -52,41 +53,10 @@ public class AO18n implements IAO18nProvider {
 				this.logger.info("Config file created: " + configPath);
 			});
 
-		ConfigManager configManager;
-		try {
-			configManager = new ConfigManager(
-				this,
-				this.logger,
-				new PluginFileHandler(this.loadedPlugin)
-			);
-		} catch (
-			final Exception exception
-		) {
-			this.logger.log(
-				Level.SEVERE,
-				"An exception occurred while loading the plugin: ",
-				exception
-			);
-			Bukkit.getServer().getPluginManager().disablePlugin(this.loadedPlugin);
-			return;
-		}
-
 		this.autoWirer
 			.addExistingSingleton(this.logger)
-			.addExistingSingleton(configManager)
-			.onException(exception -> this.logger.log(
-				Level.SEVERE,
-				"An exception occurred while loading the plugin: " + exception,
-				exception
-			))
-			.wire(success -> {
-				// Log the number of classes loaded and the time taken for wiring
-				this.logger.info(
-					"Successfully loaded " + success.getInstancesCount() + " classes (" + ((System.nanoTime() - beginTimestamp) / 1000 / 1000) + "ms)"
-				);
-			});
-
-		this.autoWirer
+			.addSingleton(ConfigManager.class)
+			.addSingleton(PluginFileHandler.class)
 			.addSingleton(I18nFactory.class)
 			.onException(exception -> this.logger.log(
 				Level.SEVERE,
@@ -94,20 +64,17 @@ public class AO18n implements IAO18nProvider {
 				exception
 			))
 			.wire(success -> {
-				// Log the number of classes loaded and the time taken for wiring
 				this.logger.info(
 					"Successfully loaded " + success.getInstancesCount() + " classes (" + ((System.nanoTime() - beginTimestamp) / 1000 / 1000) + "ms)"
 				);
 			});
-
-		this.logger.info("I18nFactory initialized.");
 	}
 
 	@Override
 	public String[] getConfigPaths() {
 		return new String[] {
-			"translations/i18n_example.yml",
-			"translations/i18n.yml"
+			"translations/i18n.yml",
+			"translations/i18n_example.yml"
 		};
 	}
 
