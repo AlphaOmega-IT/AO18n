@@ -1,5 +1,6 @@
-package de.alphaomegait.ao18n;
+package de.alphaomegait.ao18n.i18n;
 
+import de.alphaomegait.ao18n.AO18n;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
@@ -44,9 +45,6 @@ import java.util.*;
  * For more information on how to use the `I18n` class, refer to the documentation of each method.
  */
 public class I18n implements II18nImpl {
-
-	private final static Map<String, Map<String, List<String>>> TRANSLATIONS = AO18n.getI18nFactory().getI18nConfiguration().getTranslations();
-	private final static String DEFAULT_LOCALE = AO18n.getI18nFactory().getI18nConfiguration().getDefaultLocale();
 
 	private final static String PREFIX = "prefix";
 
@@ -146,7 +144,7 @@ public class I18n implements II18nImpl {
 		final String keyNotFound = "<gold>message key</gold> <red>'" + this.key + "'</red> <gold>is missing in i18n.yml!</gold>";
 
 		// Get the translations map from the I18nFactory
-		final Map<String, Map<String, List<String>>> translations = TRANSLATIONS;
+		final Map<String, Map<String, List<String>>> translations = AO18n.getTranslations();
 
 		// Check if the translations map contains the prefix
 		if (
@@ -160,8 +158,8 @@ public class I18n implements II18nImpl {
 
 		// Check if the translations map contains the key for the default locale
 		if (
-			translations.get(this.key).containsKey(DEFAULT_LOCALE)
-		) return translations.get(this.key).get(DEFAULT_LOCALE);
+			translations.get(this.key).containsKey(AO18n.getDefaultLocale())
+		) return translations.get(this.key).get(AO18n.getDefaultLocale());
 
 		// Return the default error message
 		return List.of(keyNotFound);
@@ -180,7 +178,7 @@ public class I18n implements II18nImpl {
 		final String keyNotFound = "<gold>message key</gold> <red>'" + PREFIX + "'</red> <gold>is missing in i18n.yml!</gold>";
 
 		// Get the translations map
-		final Map<String, Map<String, List<String>>> translations = TRANSLATIONS;
+		final Map<String, Map<String, List<String>>> translations = AO18n.getTranslations();
 
 		// Check if the prefix exists in the translations
 		if (
@@ -196,8 +194,8 @@ public class I18n implements II18nImpl {
 
 		// Fetch the messages based on the default locale
 		if (
-			prefixTranslations.containsKey(DEFAULT_LOCALE)
-		) return prefixTranslations.get(DEFAULT_LOCALE);
+			prefixTranslations.containsKey(AO18n.getDefaultLocale())
+		) return prefixTranslations.get(AO18n.getDefaultLocale());
 
 		// Return the default error message
 		return List.of(keyNotFound);
@@ -279,6 +277,7 @@ public class I18n implements II18nImpl {
 	 * @return The message line with replaced placeholders.
 	 */
 	private @NotNull String replaceArguments(@NotNull String messageLine) {
+		StringBuilder replacedMessage = new StringBuilder(messageLine);
 		final Iterator<String> iterator = this.arguments.values().iterator();
 		int i = 0;
 		while (
@@ -288,7 +287,7 @@ public class I18n implements II18nImpl {
 				final String string = iterator.next();
 
 				// Replace the placeholder with argument value
-				messageLine = messageLine.replace("{" + i + "}", string);
+				replacedMessage.replace(replacedMessage.indexOf("{" + i + "}"), replacedMessage.indexOf("{" + i + "}") + 3, string);
 				i++;
 			} catch (
 				final Exception ignored
@@ -297,7 +296,7 @@ public class I18n implements II18nImpl {
 			}
 		}
 
-		return messageLine;
+		return replacedMessage.toString();
 	}
 
 	/**
@@ -323,7 +322,7 @@ public class I18n implements II18nImpl {
 			final @NotNull String key,
 			final @NotNull Player player
 		) {
-			this.key = key;
+            this.key = key;
 			this.player = player;
 		}
 

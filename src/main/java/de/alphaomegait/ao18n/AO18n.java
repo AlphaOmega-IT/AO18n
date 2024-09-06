@@ -1,86 +1,82 @@
 package de.alphaomegait.ao18n;
 
-import me.blvckbytes.autowirer.AutoWirer;
-import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
-import me.blvckbytes.bukkitevaluable.ConfigManager;
-import org.bukkit.Bukkit;
+import de.alphaomegait.ao18n.i18n.I18nFactory;
+import de.alphaomegait.aocore.AOCore;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class AO18n implements IAO18nProvider {
+/**
+ * Represents the main class for managing internationalization in the application.
+ */
+public class AO18n {
 
-	private final Logger logger = Logger.getLogger(AO18n.class.getName());
-	private final AutoWirer autoWirer;
+    private final AOCore aoCore;
+    private final I18nFactory i18nFactory;
 
-	private final JavaPlugin loadedPlugin;
+    private static Map<String, Map<String, List<String>>> TRANSLATIONS = new HashMap<>();
+    private static String DEFAULT_LOCALE;
 
-	private static @Nullable I18nFactory i18nFactory;
+    /**
+     * Constructs an instance of the AO18n class.
+     *
+     * @param aoCore the AOCore instance
+     */
+    public AO18n(
+        final @NotNull AOCore aoCore
+    ) {
+        this.aoCore = aoCore;
+        this.i18nFactory = this.aoCore.getI18nFactory();
 
-	public AO18n(
-		final @NotNull JavaPlugin loadedPlugin,
-		final boolean forceReplacement
-	) {
-		this.loadedPlugin = loadedPlugin;
-		this.autoWirer = new AutoWirer();
-		this.initialize(forceReplacement);
+        if (i18nFactory != null) {
+            TRANSLATIONS = this.i18nFactory.getI18nConfiguration().getTranslations();
+            DEFAULT_LOCALE = this.i18nFactory.getI18nConfiguration().getDefaultLocale();
+        }
 
-		i18nFactory = this.autoWirer.findInstance(I18nFactory.class).orElseThrow(() -> new IllegalStateException("Could not find I18nFactory!"));
-	}
+        this.logInitialization();
+    }
 
-	@Override
-	public void initialize(
-		final boolean forceReplacement
-	) {
-		final long beginTimestamp = System.nanoTime();
+    /**
+     * Retrieves the translations map.
+     *
+     * @return the translations map
+     */
+    public static Map<String, Map<String, List<String>>> getTranslations() {
+        return TRANSLATIONS;
+    }
 
-		// Create the plugin folder if it doesn't exist
-		if (
-			this.loadedPlugin.getDataFolder().mkdir()
-		) this.logger.info("Plugin folder created.");
+    /**
+     * Retrieves the default locale.
+     *
+     * @return the default locale
+     */
+    public static String getDefaultLocale() {
+        return DEFAULT_LOCALE;
+    }
 
-		// Create config files
-		Arrays.stream(this.getConfigPaths()).toList().forEach(
-			configPath -> {
-				this.loadedPlugin.saveResource(
-					configPath,
-					forceReplacement
-				);
-				this.logger.info("Config file created: " + configPath);
-			});
-
-		this.autoWirer
-			.addExistingSingleton(this.logger)
-			.addSingleton(ConfigManager.class)
-			.addSingleton(PluginFileHandler.class)
-			.addSingleton(I18nFactory.class)
-			.onException(exception -> this.logger.log(
-				Level.SEVERE,
-				"An exception occurred while loading the plugin: " + exception,
-				exception
-			))
-			.wire(success -> {
-				this.logger.info(
-					"Successfully loaded " + success.getInstancesCount() + " classes (" + ((System.nanoTime() - beginTimestamp) / 1000 / 1000) + "ms)"
-				);
-			});
-	}
-
-	@Override
-	public String[] getConfigPaths() {
-		return new String[] {
-			"translations/i18n.yml",
-			"translations/i18n_example.yml"
-		};
-	}
-
-	public static @NotNull I18nFactory getI18nFactory() {
-		if (i18nFactory == null)
-			throw new IllegalStateException("I18nFactory is null! Make sure it's correctly setup!");
-		return i18nFactory;
-	}
+    /**
+     * Logs the initialization details of the language system.
+     */
+    private void logInitialization() {
+        this.aoCore.getLogger().logInfo(
+        """
+        ===============================================================================================
+             _______ __         __           _______                                   _______ _______ 
+            |   _   |  |.-----.|  |--.---.-.|       |.--------.-----.-----.---.-._____|_     _|_     _|
+            |       |  ||  _  ||     |  _  ||   -   ||        |  -__|  _  |  _  |______||   |_  |   |  
+            |___|___|__||   __||__|__|___._||_______||__|__|__|_____|___  |___._|     |_______| |___|  
+        ===============================================================================================
+        Language System by: SaltyFeaRz
+        Company: AlphaOmega-IT
+        Website: www.alphaomega-it.com
+        ===============================================================================================
+        Language System is initialized with...
+        ( + TRANSLATIONS.values().size() + x) Languages //TODO CHANGE IT THAT IT WILL JUST DISPLAY THE LANGUAGES
+        ( + TRANSLATIONS.values().size() + x) Language Keys
+        ===============================================================================================
+        """);
+    }
 }

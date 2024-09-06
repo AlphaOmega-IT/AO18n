@@ -58,28 +58,29 @@ public class Plugin extends JavaPlugin {
 ### Step 2.1: Use it for Internationalization
 Since we initialized the Dependency you can use the classes as long
 the .yml format of the i18n.yml file is correct.
+
 ```java
-import de.alphaomegait.ao18n.I18n;
+import de.alphaomegait.ao18n.i18n.I18n;
 import org.bukkit.entity.Player;
 
 // can be whatever class you want
 public class Example {
-
-  //Send the player a message based on the message-key in your i18n.yml file
-  //It takes if available the player client language, if the language does not
-  //exist. It will take the fallback/default language key.
-  //.build().sendMessage() will send a message as string.
-  //.build().sendMessageAsComponent() will send a message using the https://docs.advntr.dev/minimessage/index.html dependency as a Text Component
-  public void sendHelloWorldMessage(
-    final Player player
-  ) {
-    new I18n.Builder(
-      "message-key",
-      player
-    ).hasPrefix(true)
-     .build()
-     .sendMessageAsComponent();
-  }
+    
+    //Send the player a message based on the message-key in your i18n.yml file
+    //It takes if available the player client language, if the language does not
+    //exist. It will take the fallback/default language key.
+    //.build().sendMessage() will send a message as string.
+    //.build().sendMessageAsComponent() will send a message using the https://docs.advntr.dev/minimessage/index.html dependency as a Text Component
+    public void sendHelloWorldMessage(
+        final Player player
+    ) {
+        new I18n.Builder(
+            "message-key",
+            player
+        ).hasPrefix(true)
+            .build()
+            .sendMessageAsComponent();
+    }
 }
 ```
 

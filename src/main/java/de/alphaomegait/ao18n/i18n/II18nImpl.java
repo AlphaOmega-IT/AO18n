@@ -1,4 +1,4 @@
-package de.alphaomegait.ao18n;
+package de.alphaomegait.ao18n.i18n;
 
 import net.kyori.adventure.text.Component;
 
