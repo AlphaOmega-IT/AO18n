@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class I18nFactory {
 
+	private final static String MAPPER_PATH = "translations/i18n.yml";
+	private final static String ROOT_SECTION = "";
+
 	private final @Nullable I18nConfigSection i18nConfiguration;
 
 	/**
@@ -20,10 +23,10 @@ public class I18nFactory {
 	) throws Exception {
 		this.i18nConfiguration = configManager
 			.getMapper(
-				"translations/i18n.yml"
+				MAPPER_PATH
 			)
 			.mapSection(
-				"",
+				ROOT_SECTION,
 				I18nConfigSection.class
 			);
 	}

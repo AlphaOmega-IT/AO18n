@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -379,12 +380,16 @@ public class I18n implements II18nImpl {
 		 * @return            the current instance of the `Builder` class
 		 */
 		public Builder setArgs(
-			final @NotNull Object... arguments
+			final @Nullable Object... arguments
 		) {
+			if (
+				arguments == null
+			) return this;
+
 			this.hasPlaceholder = true;
 			for (
 				Object argument : arguments
-			) this.arguments.put(this.arguments.size(), argument.toString());
+			) this.arguments.put(this.arguments.size(), argument == null ? "<null>" : argument.toString());
 			return this;
 		}
 

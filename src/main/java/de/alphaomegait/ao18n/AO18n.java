@@ -2,9 +2,13 @@ package de.alphaomegait.ao18n;
 
 import de.alphaomegait.ao18n.i18n.I18nFactory;
 import de.alphaomegait.aocore.AOCore;
+import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
+import me.blvckbytes.bukkitevaluable.ConfigManager;
+import me.blvckbytes.bukkitevaluable.IConfigPathsProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +43,19 @@ public class AO18n {
         this.logInitialization();
     }
 
+    public AO18n(
+        final @NotNull JavaPlugin loadedPlugin
+    ) throws Exception {
+        this.aoCore = null;
+
+        final ConfigManager configManager = new ConfigManager(() -> new String[]{"translations/i18n.yml"}, loadedPlugin.getLogger(), new PluginFileHandler(loadedPlugin));
+        this.i18nFactory = new I18nFactory(configManager);
+        TRANSLATIONS = this.i18nFactory.getI18nConfiguration().getTranslations();
+        DEFAULT_LOCALE = this.i18nFactory.getI18nConfiguration().getDefaultLocale();
+
+        this.logInitialization();
+    }
+
     /**
      * Retrieves the translations map.
      *
@@ -61,7 +78,7 @@ public class AO18n {
      * Logs the initialization details of the language system.
      */
     private void logInitialization() {
-        this.aoCore.getLogger().logInfo(
+        String message =
         """
         ===============================================================================================
              _______ __         __           _______                                   _______ _______ 
@@ -74,9 +91,15 @@ public class AO18n {
         Website: www.alphaomega-it.com
         ===============================================================================================
         Language System is initialized with...
-        ( + TRANSLATIONS.values().size() + x) Languages //TODO CHANGE IT THAT IT WILL JUST DISPLAY THE LANGUAGES
-        ( + TRANSLATIONS.values().size() + x) Language Keys
+        (%translation_languages%x) Languages
+        (%translation_keys%x) Language Keys
         ===============================================================================================
-        """);
+        """;
+
+        this.aoCore.getLogger().logInfo(
+            message
+                .replaceAll("%translation_languages%", String.valueOf(TRANSLATIONS.getOrDefault("prefix", Map.of()).size()))
+                .replaceAll("%translation_keys%", String.valueOf(TRANSLATIONS.values().size()))
+        );
     }
 }
