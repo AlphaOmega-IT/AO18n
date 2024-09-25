@@ -17,6 +17,12 @@ public interface II18nImpl {
 	 *
 	 */
 	void sendMessageAsComponent();
+	
+	/**
+	 * Sends messages as components.
+	 *
+	 */
+	void sendMessagesAsComponent();
 
 	/**
 	 *

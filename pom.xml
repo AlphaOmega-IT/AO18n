@@ -6,7 +6,7 @@
 
     <groupId>de.alphaomega-it.ao18n</groupId>
     <artifactId>AO18n</artifactId>
-    <version>2.55</version>
+    <version>2.56</version>
     <name>AO18n</name>
     <description>AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers.</description>
     <url>https://github.com/AlphaOmega-IT/AO18n</url>
@@ -73,6 +73,12 @@
             <artifactId>BBConfigMapper</artifactId>
             <version>1.1</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- BukkitEvaluable -->
@@ -81,6 +87,16 @@
             <artifactId>BukkitEvaluable</artifactId>
             <version>1.1</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>de.alphaomega-it.gpeee</groupId>
+                    <artifactId>GPEEE</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>de.alphaomega-it.bbconfigmapper</groupId>
+                    <artifactId>BBConfigMapper</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- AOCore -->
@@ -97,7 +113,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -125,6 +141,17 @@
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${gpg.executable}</executable>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

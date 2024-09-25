@@ -2,6 +2,7 @@ package de.alphaomegait.ao18n.i18n;
 
 import de.alphaomegait.ao18n.AO18n;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -82,7 +83,15 @@ public class I18n implements II18nImpl {
 	public void sendMessageAsComponent() {
 		this.player.sendMessage(MiniMessage.miniMessage().deserialize(this.getJoinedMessage()));
 	}
-
+	
+	@Override
+	public void sendMessagesAsComponent() {
+		Arrays.stream(this.getJoinedMessage().split("<newline>")).toList().forEach(message -> {
+				player.sendMessage(MiniMessage.miniMessage().deserialize(message).decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+			}
+		);
+	}
+	
 	/**
 	 * Returns the joined message.
 	 *
