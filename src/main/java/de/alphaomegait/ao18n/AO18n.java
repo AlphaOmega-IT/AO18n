@@ -1,59 +1,46 @@
 package de.alphaomegait.ao18n;
 
+import de.alphaomegait.ao18n.configurations.I18nConfigSection;
 import de.alphaomegait.ao18n.i18n.I18nFactory;
-import de.alphaomegait.aocore.AOCore;
-import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
+import me.blvckbytes.bukkitevaluable.ConfigKeeper;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
-import me.blvckbytes.bukkitevaluable.IConfigPathsProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Represents the main class for managing internationalization in the application.
  */
 public class AO18n {
 
-    private final AOCore aoCore;
-    private final I18nFactory i18nFactory;
+    private final static String TRANSLATION_FOLDER = "translations";
+
+    private final JavaPlugin loadedPlugin;
 
     private static Map<String, Map<String, List<String>>> TRANSLATIONS = new HashMap<>();
     private static String DEFAULT_LOCALE;
 
-    /**
-     * Constructs an instance of the AO18n class.
-     *
-     * @param aoCore the AOCore instance
-     */
-    public AO18n(
-        final @NotNull AOCore aoCore
-    ) {
-        this.aoCore = aoCore;
-        this.i18nFactory = this.aoCore.getI18nFactory();
-
-        if (i18nFactory != null) {
-            TRANSLATIONS = this.i18nFactory.getI18nConfiguration().getTranslations();
-            DEFAULT_LOCALE = this.i18nFactory.getI18nConfiguration().getDefaultLocale();
-        }
-
-        this.logInitialization();
-    }
-
     public AO18n(
         final @NotNull JavaPlugin loadedPlugin
-    ) throws Exception {
-        this.aoCore = null;
+    ) {
+        this.loadedPlugin = loadedPlugin;
+        try {
 
-        final ConfigManager configManager = new ConfigManager(() -> new String[]{"translations/i18n.yml"}, loadedPlugin.getLogger(), new PluginFileHandler(loadedPlugin));
-        this.i18nFactory = new I18nFactory(configManager);
-        TRANSLATIONS = this.i18nFactory.getI18nConfiguration().getTranslations();
-        DEFAULT_LOCALE = this.i18nFactory.getI18nConfiguration().getDefaultLocale();
+            var translationManager = new ConfigManager(this.loadedPlugin, TRANSLATION_FOLDER);
+            var translationConfig = new ConfigKeeper<>(translationManager, "i18n.yml", I18nConfigSection.class);
 
-        this.logInitialization();
+            I18nFactory i18nFactory = new I18nFactory(translationConfig);
+
+            TRANSLATIONS = i18nFactory.getI18nConfiguration().getTranslations();
+            DEFAULT_LOCALE = i18nFactory.getI18nConfiguration().getDefaultLocale();
+            this.logInitialization();
+        } catch (Exception e) {
+            this.loadedPlugin.getLogger().log(Level.SEVERE, "Failed to load translations", e);
+        }
     }
 
     /**
@@ -96,10 +83,11 @@ public class AO18n {
         ===============================================================================================
         """;
 
-        this.aoCore.getLogger().logInfo(
-            message
-                .replaceAll("%translation_languages%", String.valueOf(TRANSLATIONS.getOrDefault("prefix", Map.of()).size()))
-                .replaceAll("%translation_keys%", String.valueOf(TRANSLATIONS.values().size()))
+        this.loadedPlugin.getLogger().log(
+                Level.INFO,
+                message
+                    .replaceAll("%translation_languages%", String.valueOf(TRANSLATIONS.getOrDefault("prefix", Map.of()).size()))
+                    .replaceAll("%translation_keys%", String.valueOf(TRANSLATIONS.values().size()))
         );
     }
 }

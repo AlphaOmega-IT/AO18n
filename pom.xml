@@ -6,7 +6,7 @@
 
     <groupId>de.alphaomega-it.ao18n</groupId>
     <artifactId>AO18n</artifactId>
-    <version>2.56</version>
+    <version>0.1</version>
     <name>AO18n</name>
     <description>AO18n is a powerful internationalization library for Minecraft [Spigot/Paper] Servers.</description>
     <url>https://github.com/AlphaOmega-IT/AO18n</url>
@@ -69,42 +69,16 @@
 
         <!-- BBConfigMapper -->
         <dependency>
-            <groupId>de.alphaomega-it.bbconfigmapper</groupId>
+            <groupId>me.blvckbytes</groupId>
             <artifactId>BBConfigMapper</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.yaml</groupId>
-                    <artifactId>snakeyaml</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>0.1</version>
         </dependency>
 
         <!-- BukkitEvaluable -->
         <dependency>
-            <groupId>de.alphaomega-it.bukkitevaluable</groupId>
+            <groupId>me.blvckbytes</groupId>
             <artifactId>BukkitEvaluable</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>de.alphaomega-it.gpeee</groupId>
-                    <artifactId>GPEEE</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>de.alphaomega-it.bbconfigmapper</groupId>
-                    <artifactId>BBConfigMapper</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- AOCore -->
-        <dependency>
-            <groupId>de.alphaomega-it.aocore</groupId>
-            <artifactId>AOCore</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
+            <version>0.1</version>
         </dependency>
     </dependencies>
 

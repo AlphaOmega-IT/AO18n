@@ -1,25 +1,29 @@
 package de.alphaomegait.ao18n.configurations;
 
+import me.blvckbytes.bbconfigmapper.sections.AConfigSection;
 import me.blvckbytes.bbconfigmapper.sections.CSAlways;
-import me.blvckbytes.bbconfigmapper.sections.IConfigSection;
+import me.blvckbytes.gpeee.interpreter.EvaluationEnvironmentBuilder;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class I18nConfigSection implements IConfigSection, I18nConfigurationProvider {
+@CSAlways
+public class I18nConfigSection extends AConfigSection {
 
-    @CSAlways
     private String defaultLocale;
-
-    @CSAlways
     private Map<String, Object> translations;
 
-    @Override
+    public I18nConfigSection(EvaluationEnvironmentBuilder baseEnvironment) {
+        super(baseEnvironment);
+    }
+
     public String getDefaultLocale() {
         return this.defaultLocale == null ? "en" : this.defaultLocale;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
     public Map<String, Map<String, List<String>>> getTranslations() {
         return Optional.ofNullable(this.translations)
