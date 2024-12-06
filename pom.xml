@@ -118,9 +118,6 @@
                     <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
                         <configuration>
                             <executable>${gpg.executable}</executable>
                             <passphrase>${gpg.passphrase}</passphrase>
