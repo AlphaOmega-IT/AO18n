@@ -74,6 +74,7 @@
             <groupId>me.blvckbytes</groupId>
             <artifactId>BBConfigMapper</artifactId>
             <version>0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- BukkitEvaluable (Organization's internal module) -->
@@ -81,6 +82,7 @@
             <groupId>me.blvckbytes</groupId>
             <artifactId>BukkitEvaluable</artifactId>
             <version>0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Adventure (For MiniMessage API and Components) -->
@@ -88,16 +90,19 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.17.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bukkit</artifactId>
             <version>4.3.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
             <version>4.17.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -113,52 +118,6 @@
                     <target>${java.version}</target>
                     <release>${java.version}</release>
                 </configuration>
-            </plugin>
-
-            <!-- Dependency Plugin for Shade -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.5.0</version>
-            </plugin>
-
-            <!-- Shade Plugin to Relocate Dependencies -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <relocations>
-                                <relocation>
-                                    <pattern>me.blvckbytes</pattern>
-                                    <shadedPattern>de.alphaomegait.libs.blvckbytes</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Javadoc Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <!-- Source Plugin -->
@@ -182,7 +141,7 @@
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
-                    <execution>
+<!--                    <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
                         <goals>
@@ -192,7 +151,7 @@
                             <defaultKeyring>true</defaultKeyring>
                             <passphraseServerId>gpg.passphrase</passphraseServerId>
                         </configuration>
-                    </execution>
+                    </execution>-->
                 </executions>
                 <dependencies>
                     <dependency>

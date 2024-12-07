@@ -4,7 +4,6 @@ import de.alphaomegait.ao18n.AO18n;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -161,7 +160,7 @@ public class I18n implements II18nImpl {
 		private String key;
 		private boolean includePrefix = false;
 
-		public Builder(@NotNull String key, @NotNull Player player) {
+		public Builder(String key, Player player) {
 			this.key = key;
 			this.player = player;
 		}
@@ -171,7 +170,7 @@ public class I18n implements II18nImpl {
 			return this;
 		}
 
-		public Builder setKey(@NotNull String key) {
+		public Builder setKey(String key) {
 			this.key = key;
 			return this;
 		}
@@ -181,7 +180,7 @@ public class I18n implements II18nImpl {
 			return this;
 		}
 
-		public Builder withPlaceholders(@NotNull Map<String, Object> placeholders) {
+		public Builder withPlaceholders(Map<String, Object> placeholders) {
 			for (Map.Entry<String, Object> entry : placeholders.entrySet()) {
 				String value = entry.getValue() != null ? entry.getValue().toString() : "<null>";
 				this.placeholders.put(entry.getKey(), value);
@@ -189,7 +188,7 @@ public class I18n implements II18nImpl {
 			return this;
 		}
 
-		public Builder withPlaceholder(@NotNull String key, @NotNull Object value) {
+		public Builder withPlaceholder(String key, Object value) {
 			this.placeholders.put(key, value.toString());
 			return this;
 		}
