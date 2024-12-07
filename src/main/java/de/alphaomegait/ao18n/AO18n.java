@@ -7,87 +7,95 @@ import me.blvckbytes.bukkitevaluable.ConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 import java.util.logging.Level;
 
-/**
- * Represents the main class for managing internationalization in the application.
- */
 public class AO18n {
 
-    private final static String TRANSLATION_FOLDER = "translations";
+    private static final String TRANSLATION_FOLDER = "translations";
 
-    private final JavaPlugin loadedPlugin;
+    private final JavaPlugin plugin;
+    private static final Map<String, Map<String, List<String>>> TRANSLATIONS = new HashMap<>();
+    private static String defaultLocale = "en";
 
-    private static Map<String, Map<String, List<String>>> TRANSLATIONS = new HashMap<>();
-    private static String DEFAULT_LOCALE;
-
-    public AO18n(
-        final @NotNull JavaPlugin loadedPlugin
-    ) {
-        this.loadedPlugin = loadedPlugin;
+    public AO18n(@NotNull JavaPlugin plugin) {
+        this.plugin = plugin;
         try {
-
-            var translationManager = new ConfigManager(this.loadedPlugin, TRANSLATION_FOLDER);
-            var translationConfig = new ConfigKeeper<>(translationManager, "i18n.yml", I18nConfigSection.class);
-
-            I18nFactory i18nFactory = new I18nFactory(translationConfig);
-
-            TRANSLATIONS = i18nFactory.getI18nConfiguration().getTranslations();
-            DEFAULT_LOCALE = i18nFactory.getI18nConfiguration().getDefaultLocale();
-            this.logInitialization();
+            loadTranslations();
+            logInitialization();
         } catch (Exception e) {
-            this.loadedPlugin.getLogger().log(Level.SEVERE, "Failed to load translations", e);
+            plugin.getLogger().log(Level.SEVERE, "Failed to load translations", e);
         }
     }
 
-    /**
-     * Retrieves the translations map.
-     *
-     * @return the translations map
-     */
+    private void loadTranslations() throws Exception {
+        File translationsDir = new File(plugin.getDataFolder(), TRANSLATION_FOLDER);
+        if (!translationsDir.exists() && !translationsDir.mkdirs()) {
+            throw new IllegalStateException("Could not create translations directory at " + translationsDir.getAbsolutePath());
+        }
+
+        File[] files = translationsDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
+        if (files == null || files.length == 0) {
+            throw new Exception("No translation files found in " + translationsDir.getAbsolutePath());
+        }
+
+        ConfigManager translationManager = new ConfigManager(plugin, TRANSLATION_FOLDER);
+
+        for (File file : files) {
+            String locale = file.getName().replaceFirst("\\.yml$", "");
+            ConfigKeeper<I18nConfigSection> translationConfig = new ConfigKeeper<>(translationManager, file.getName(), I18nConfigSection.class);
+            I18nConfigSection i18nConfig = translationConfig.rootSection;
+
+            if (defaultLocale == null) {
+                defaultLocale = i18nConfig.getDefaultLocale();
+            }
+
+            i18nConfig.loadTranslations(locale);
+
+            Map<String, Map<String, List<String>>> translationsForLocale = i18nConfig.getProcessedTranslations();
+            mergeTranslations(translationsForLocale);
+        }
+    }
+
+    private void mergeTranslations(Map<String, Map<String, List<String>>> translationsForLocale) {
+        for (Map.Entry<String, Map<String, List<String>>> entry : translationsForLocale.entrySet()) {
+            String key = entry.getKey();
+            Map<String, List<String>> localeMap = entry.getValue();
+
+            TRANSLATIONS.computeIfAbsent(key, k -> new HashMap<>()).putAll(localeMap);
+        }
+    }
+
     public static Map<String, Map<String, List<String>>> getTranslations() {
-        return TRANSLATIONS;
+        return Collections.unmodifiableMap(TRANSLATIONS);
     }
 
-    /**
-     * Retrieves the default locale.
-     *
-     * @return the default locale
-     */
     public static String getDefaultLocale() {
-        return DEFAULT_LOCALE;
+        return defaultLocale;
     }
 
-    /**
-     * Logs the initialization details of the language system.
-     */
     private void logInitialization() {
-        String message =
-        """
-        ===============================================================================================
-             _______ __         __           _______                                   _______ _______ 
-            |   _   |  |.-----.|  |--.---.-.|       |.--------.-----.-----.---.-._____|_     _|_     _|
-            |       |  ||  _  ||     |  _  ||   -   ||        |  -__|  _  |  _  |______||   |_  |   |  
-            |___|___|__||   __||__|__|___._||_______||__|__|__|_____|___  |___._|     |_______| |___|  
-        ===============================================================================================
-        Language System by: SaltyFeaRz
-        Company: AlphaOmega-IT
-        Website: www.alphaomega-it.com
-        ===============================================================================================
-        Language System is initialized with...
-        (%translation_languages%x) Languages
-        (%translation_keys%x) Language Keys
-        ===============================================================================================
-        """;
+        String message = """
+                ===============================================================================================
+                     _______ __         __           _______                                   _______ _______
+                    |   _   |  |.-----.|  |--.---.-.|       |.--------.-----.-----.---.-._____|_     _|_     _|
+                    |       |  ||  _  ||     |  _  ||   -   ||        |  -__|  _  |  _  |______||   |_  |   |
+                    |___|___|__||   __||__|__|___._||_______||__|__|__|_____|___  |___._|     |_______| |___|
+                                      |__|                                 |_____|                   
 
-        this.loadedPlugin.getLogger().log(
-                Level.INFO,
-                message
-                    .replaceAll("%translation_languages%", String.valueOf(TRANSLATIONS.getOrDefault("prefix", Map.of()).size()))
-                    .replaceAll("%translation_keys%", String.valueOf(TRANSLATIONS.values().size()))
-        );
+                ===============================================================================================
+                Language System Initialized
+                Company: AlphaOmega-IT
+                Website: www.alphaomega-it.com
+                ===============================================================================================
+                Languages Loaded: %d
+                Translation Keys: %d
+                ===============================================================================================
+                """;
+
+        int languageCount = TRANSLATIONS.values().stream().findFirst().map(Map::size).orElse(0);
+        int keyCount = TRANSLATIONS.size();
+        plugin.getLogger().info(String.format(message, languageCount, keyCount));
     }
 }

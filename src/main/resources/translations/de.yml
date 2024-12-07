@@ -1,0 +1,8 @@
+welcome_message: "Willkommen, {playerName}!"
+lore:
+  - "Dies ist die erste Zeile mit {item}."
+  - "Und dies ist die zweite Zeile."
+error_messages:
+  not_found: "Der Artikel '{item}' wurde nicht gefunden."
+  access_denied: "Sie haben keine Berechtigung, auf {area} zuzugreifen."
+prefix: "<gold>[MeinServer]</gold>"

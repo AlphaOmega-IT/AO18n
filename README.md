@@ -77,7 +77,7 @@ public class Example {
         new I18n.Builder(
             "message-key",
             player
-        ).hasPrefix(true)
+        ).includePrefix(true)
             .build()
             .sendMessageAsComponent();
     }
