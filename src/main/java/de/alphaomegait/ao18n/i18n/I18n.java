@@ -146,7 +146,7 @@ public class I18n implements II18nImpl {
 
 	private String replacePlaceholders(String message) {
 		for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-			String placeholder = "{" + entry.getKey() + "}";
+			String placeholder = entry.getKey().matches(".*\\{.*}.*") ? entry.getKey() : "{" + entry.getKey() + "}";
 			message = message.replace(placeholder, entry.getValue());
 		}
 		return message;

@@ -1,8 +1,0 @@
-welcome_message: "Welcome, {playerName}!"
-lore:
-  - "This is the first line with {item}."
-  - "And this is the second line."
-error_messages:
-  not_found: "The item '{item}' was not found."
-  access_denied: "You do not have permission to access {area}."
-prefix: "<gold>[MyServer]</gold>"
